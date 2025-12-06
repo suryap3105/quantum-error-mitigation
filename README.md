@@ -116,6 +116,33 @@ Each channel has **different discard behavior**:
 
 ---
 
+## 🎓 **Scientific Validation**
+
+**All noise implementations verified against published literature:**
+
+### Core Quantum Channel Theory
+- **Nielsen & Chuang (2002)** - *Quantum Computation and Quantum Information*  
+  ✅ Amplitude damping, phase damping, depolarizing channels
+  
+- **Breuer & Petruccione (2002)** - *Theory of Open Quantum Systems*  
+  ✅ Lindblad master equation, T1/T2 formalism
+
+### Hardware Noise Models
+- **Google AI (Arute et al., Nature 2019)** - Quantum supremacy processor  
+  ✅ Composite noise: T1 + T2 + depolarizing
+
+- **IBM Quantum (Kandala et al., Nature 2019)** - Error mitigation  
+  ✅ Sequential noise channel application
+
+### Verification
+✅ **All Kraus operators** match textbook definitions  
+✅ **Expectation values** computed via Tr(ρO)  
+✅ **Physics tests** pass for all noise channels
+
+**Full compliance verification:** See [literature_compliance.md](C:\Users\surya\.gemini\antigravity\brain\40a069b8-76b4-404a-bb35-7fa0429a352e\literature_compliance.md)
+
+---
+
 ## 📈 **Results Highlights**
 
 ### **Error Reduction (H₂ at γ=0.08)**

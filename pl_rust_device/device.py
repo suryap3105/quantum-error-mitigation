@@ -25,6 +25,14 @@ class RustDensityMatrixDevice(QubitDevice):
     observables = {"PauliX", "PauliY", "PauliZ", "Hadamard", "Identity", "Hermitian"}
 
     def __init__(self, wires, shots=None, noise_type="amplitude_damping", noise_gamma=0.0):
+        # Validate noise parameters
+        valid_noise_types = ["amplitude_damping", "phase_damping", "depolarizing", "composite"]
+        if noise_type not in valid_noise_types:
+            raise ValueError(f"Invalid noise_type '{noise_type}'. Must be one of {valid_noise_types}")
+        
+        if not 0 <= noise_gamma <= 1:
+            raise ValueError(f"noise_gamma must be in [0, 1], got {noise_gamma}")
+        
         super().__init__(wires=wires, shots=shots)
         self.num_qubits = len(self.wires)
         self.noise_type = noise_type
@@ -109,20 +117,68 @@ class RustDensityMatrixDevice(QubitDevice):
                 # For single qubit system, compute directly
                 if self.num_qubits == 1:
                     if obs_name == 'PauliZ':
-                        # <Z> = ρ_00 - ρ_11
                         return np.real(rho[0, 0] - rho[1, 1])
                     elif obs_name == 'PauliX':
-                        # <X> = ρ_01 + ρ_10 = 2*Re(ρ_01)
                         return 2 * np.real(rho[0, 1])
                     elif obs_name == 'PauliY':
-                        # <Y> = -i(ρ_01 - ρ_10) = 2*Im(ρ_01)
                         return 2 * np.imag(rho[0, 1])
                 else:
-                    # For multi-qubit systems, we need to trace out other qubits
-                    # This is more complex - for now fallback to parent
-                    pass
+                    # Multi-qubit system: compute marginal density matrix for target wire
+                    rho_marginal = self._marginal_density_matrix(rho, wire)
+                    
+                    if obs_name == 'PauliZ':
+                        return np.real(rho_marginal[0, 0] - rho_marginal[1, 1])
+                    elif obs_name == 'PauliX':
+                        return 2 * np.real(rho_marginal[0, 1])
+                    elif obs_name == 'PauliY':
+                        return 2 * np.imag(rho_marginal[0, 1])
+        # Fallback to parent class implementation for complex observables        
+        return super().expval(observable, shot_range, bin_size)
+
+    def _marginal_density_matrix(self, rho, target_wire):
+        """
+        Compute marginal density matrix for a single wire by tracing out all others.
         
-        # Fallback to parent class implementation for complex observables        return super().expval(observable, shot_range, bin_size)
+        Args:
+            rho: Full density matrix (2^N × 2^N)
+            target_wire: Wire to keep (0-indexed)
+            
+        Returns:
+            2×2 marginal density matrix for target wire
+        """
+        n = self.num_qubits
+        dim = 2 ** n
+        rho_marginal = np.zeros((2, 2), dtype=complex)
+        
+        # Trace out all qubits except target_wire
+        # For each basis state |i⟩ of target wire (|0⟩ or |1⟩)
+        # and |j⟩ of target wire
+        for i in range(2):
+            for j in range(2):
+                # Sum over all basis states of other qubits
+                for k in range(2 ** (n - 1)):
+                    # Construct full basis state indices
+                    # Insert bit i at position target_wire
+                    idx_i = self._insert_bit_at_position(k, i, target_wire, n)
+                    idx_j = self._insert_bit_at_position(k, j, target_wire, n)
+                    rho_marginal[i, j] += rho[idx_i, idx_j]
+        
+        return rho_marginal
+    
+    def _insert_bit_at_position(self, base_num, bit, position, total_bits):
+        """
+        Insert a bit at a specific position in a number's binary representation.
+        
+        Example: base_num=5 (101), bit=1, position=1, total_bits=4
+        Result: 1011 (11 in decimal)
+        """
+        # Split base_num into high and low parts around insertion point
+        low_bits = base_num & ((1 << (total_bits - position - 1)) - 1)
+        high_bits = base_num >> (total_bits - position - 1)
+        
+        # Construct result: high_bits | bit | low_bits
+        result = (high_bits << (total_bits - position)) | (bit << (total_bits - position - 1)) | low_bits
+        return result
 
     def probability(self, wires=None, shot_range=None, bin_size=None):
         probs = self._sim.probabilities()
