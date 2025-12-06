@@ -1,0 +1,13 @@
+[package]
+name = "python_bindings"
+version = "0.1.0"
+edition = "2021"
+description = "Python bindings for the Quantum Error Mitigation simulator"
+
+[lib]
+name = "quantum_core" # Keep the module name as quantum_core for compatibility
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20", features = ["extension-module"] }
+rust_sim = { path = "../rust_sim" }

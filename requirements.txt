@@ -1,0 +1,6 @@
+pennylane>=0.36
+pennylane-qchem>=0.28
+numpy
+pandas
+matplotlib
+

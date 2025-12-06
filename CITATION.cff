@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below. Developed during a 72-hour research sprint."
+authors:
+- given-names: "Surya"
+title: "Synergistic Quantum Error Mitigation Framework"
+version: 1.0.0-hackathon
+date-released: 2025-12-04
+url: "https://github.com/suryap3105/quantum-error-mitigation"
+preferred-citation:
+  type: article
+  authors:
+  - given-names: "Surya"
+  title: "Synergistic Coupling of Dynamical Decoupling and Symmetry Verification in NISQ Algorithms"
+  year: 2025

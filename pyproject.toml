@@ -1,0 +1,21 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "quantum-error-mitigation"
+version = "0.1.0"
+description = "Synergistic Quantum Error Mitigation Framework"
+requires-python = ">=3.8"
+dependencies = [
+    "pennylane>=0.33.0",
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+    "matplotlib>=3.7.0",
+    "torch>=2.0.0",
+    "gym>=0.26.0",
+]
+
+[tool.maturin]
+python-source = "python_bindings"
+module-name = "quantum_core"
