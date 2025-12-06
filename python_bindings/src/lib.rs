@@ -38,6 +38,16 @@ impl PyQuantumSimulator {
         self.inner.apply_noise(wire, protected);
     }
 
+    /// Apply phase damping (T2) noise
+    fn apply_phase_damping(&mut self, wire: usize, lambda: f64) {
+        self.inner.apply_phase_damping(wire, lambda);
+    }
+
+    /// Apply depolarizing noise
+    fn apply_depolarizing(&mut self, wire: usize, p: f64) {
+        self.inner.apply_depolarizing(wire, p);
+    }
+
     /// Measure all qubits once and return bitstring
     fn measure(&self) -> PyResult<Vec<usize>> {
         Ok(self.inner.measure())

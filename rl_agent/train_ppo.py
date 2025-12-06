@@ -6,8 +6,8 @@ from rl_agent.policy import PolicyNet
 from pathlib import Path
 
 def train_ppo():
-    env = QEMEnv()
-    policy = PolicyNet(input_dim=2, output_dim=4)
+    env = QEMEnv(molecule_name="H2")
+    policy = PolicyNet(input_dim=6, output_dim=4)
     optimizer = optim.Adam(policy.parameters(), lr=1e-3)
     
     num_episodes = 500

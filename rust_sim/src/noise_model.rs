@@ -41,6 +41,58 @@ pub fn dephasing_kraus(lambda: f64) -> Vec<DMatrix<Complex<f64>>> {
     vec![k0, k1]
 }
 
+/// Depolarizing channel - models symmetric contraction of the Bloch sphere
+/// rho -> (1-p)rho + p I/2
+pub fn depolarizing_kraus(p: f64) -> Vec<DMatrix<Complex<f64>>> {
+    let i = Complex::new(0.0, 1.0);
+    let one = Complex::new(1.0, 0.0);
+    let zero = Complex::new(0.0, 0.0);
+    
+    let sqrt_1_3p_4 = (1.0 - 3.0 * p / 4.0).sqrt();
+    let sqrt_p_4 = (p / 4.0).sqrt();
+    
+    // K0 = sqrt(1-3p/4) * I
+    let k0 = DMatrix::from_row_slice(2, 2, &[
+        one * sqrt_1_3p_4, zero,
+        zero, one * sqrt_1_3p_4
+    ]);
+    
+    // K1 = sqrt(p/4) * X
+    let k1 = DMatrix::from_row_slice(2, 2, &[
+        zero, one * sqrt_p_4,
+        one * sqrt_p_4, zero
+    ]);
+    
+    // K2 = sqrt(p/4) * Y
+    let k2 = DMatrix::from_row_slice(2, 2, &[
+        zero, -i * sqrt_p_4,
+        i * sqrt_p_4, zero
+    ]);
+    
+    // K3 = sqrt(p/4) * Z
+    let k3 = DMatrix::from_row_slice(2, 2, &[
+        one * sqrt_p_4, zero,
+        zero, -one * sqrt_p_4
+    ]);
+    
+    vec![k0, k1, k2, k3]
+}
+
+/// Apply depolarizing noise to a specific qubit wire
+pub fn apply_depolarizing(
+    rho: &mut DensityMatrix,
+    wire: usize,
+    p: f64,
+) {
+    if p <= 0.0 {
+        return; // No noise
+    }
+    
+    let single_qubit_kraus = depolarizing_kraus(p);
+    let full_kraus = expand_kraus_to_full_system(&single_qubit_kraus, wire, rho.num_qubits);
+    rho.apply_kraus(&full_kraus);
+}
+
 /// Apply amplitude damping noise to a specific qubit wire
 pub fn apply_amplitude_damping(
     rho: &mut DensityMatrix,

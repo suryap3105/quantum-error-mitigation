@@ -103,6 +103,22 @@ impl QuantumSimulator {
         apply_idle_noise(&mut self.state, wire, protected);
     }
 
+    /// Apply phase damping (T2) noise
+    pub fn apply_phase_damping(&mut self, wire: usize, lambda: f64) {
+        if wire >= self.num_qubits {
+            return;
+        }
+        apply_dephasing(&mut self.state, wire, lambda);
+    }
+
+    /// Apply depolarizing noise
+    pub fn apply_depolarizing(&mut self, wire: usize, p: f64) {
+        if wire >= self.num_qubits {
+            return;
+        }
+        apply_depolarizing(&mut self.state, wire, p);
+    }
+
     /// Measure all qubits and return single bitstring
     pub fn measure(&self) -> Vec<usize> {
         let probs = self.state.probabilities();
