@@ -13,6 +13,7 @@ COLORS = {
     "dd": "#4C8CFE",       # Blue
     "sym": "#F39C12",      # Orange
     "hybrid": "#1ABC9C",   # Green
+    "rl": "#9B59B6",       # Purple
     "fci": "#FF6B6B"       # Red
 }
 
@@ -20,7 +21,8 @@ LABELS = {
     "baseline": "Baseline",
     "dd": "DD (Active)",
     "sym": "Sym (Passive)",
-    "hybrid": "Hybrid (Active+Passive)",
+    "hybrid": "Hybrid (DD + Sym)",
+    "rl": "RL Agent",
     "fci": "FCI (Exact)"
 }
 
@@ -50,7 +52,7 @@ def plot_dissociation_curve(df, gamma):
              color=COLORS["fci"], linestyle="--", label=LABELS["fci"], linewidth=2)
     
     # Plot Strategies
-    strategies = ["baseline", "dd", "sym", "hybrid"]
+    strategies = ["baseline", "dd", "sym", "hybrid", "rl"]
     
     for strat in strategies:
         data = df_g[df_g["strategy"] == strat].sort_values("R")
@@ -67,7 +69,7 @@ def plot_dissociation_curve(df, gamma):
         
         # Confidence Interval (Shaded)
         plt.fill_between(data["R"], data["ci_lower"], data["ci_upper"],
-                         color=color, alpha=0.2)
+                         color=color, alpha=0.3)
                          
     # Styling
     plt.title(f"H2 Dissociation Curve (Noise $\gamma={gamma}$)\nFixed Shot Budget (N=10,000) | Shaded Areas = 95% Confidence Interval")

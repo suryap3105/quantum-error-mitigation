@@ -5,3 +5,4 @@ class Strategy(str, Enum):
     DD = "dd"
     SYM = "sym"
     HYBRID = "hybrid"
+    RL = "rl"

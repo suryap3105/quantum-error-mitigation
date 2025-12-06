@@ -1,8 +1,9 @@
 import torch
 import torch.optim as optim
 import numpy as np
-from .env import QEMEnv
-from .policy import PolicyNet
+from rl_agent.env import QEMEnv
+from rl_agent.policy import PolicyNet
+from pathlib import Path
 
 def train_ppo():
     env = QEMEnv()
@@ -35,11 +36,12 @@ def train_ppo():
         returns = []
         G = 0
         for r in reversed(rewards):
-            G = r + 0.99 * G
+            G = float(r + 0.99 * G)
             returns.insert(0, G)
             
         returns = torch.tensor(returns)
-        returns = (returns - returns.mean()) / (returns.std() + 1e-9)
+        if len(returns) > 1:
+            returns = (returns - returns.mean()) / (returns.std() + 1e-9)
         
         # Update policy
         policy_loss = []
@@ -55,7 +57,8 @@ def train_ppo():
             print(f"Episode {episode+1}, Total Reward: {sum(rewards):.2f}")
             
     print("Training Complete.")
-    torch.save(policy.state_dict(), "rl_agent/policy.pth")
+    Path("results").mkdir(exist_ok=True)
+    torch.save(policy.state_dict(), "results/rl_policy.pth")
 
 if __name__ == "__main__":
     train_ppo()
