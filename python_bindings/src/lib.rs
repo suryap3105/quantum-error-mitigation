@@ -38,6 +38,11 @@ impl PyQuantumSimulator {
         self.inner.apply_noise(wire, protected);
     }
 
+    /// Apply amplitude damping (T1) noise
+    fn apply_amplitude_damping(&mut self, wire: usize, gamma: f64) {
+        self.inner.apply_amplitude_damping(wire, gamma);
+    }
+
     /// Apply phase damping (T2) noise
     fn apply_phase_damping(&mut self, wire: usize, lambda: f64) {
         self.inner.apply_phase_damping(wire, lambda);
@@ -66,6 +71,11 @@ impl PyQuantumSimulator {
     /// Get trace and purity
     fn get_metrics(&self) -> PyResult<(f64, f64)> {
         Ok(self.inner.get_metrics())
+    }
+
+    /// Get density matrix as (real_parts, imag_parts)
+    fn get_density_matrix(&self) -> PyResult<(Vec<f64>, Vec<f64>)> {
+        Ok(self.inner.get_density_matrix())
     }
 
     /// Get number of qubits

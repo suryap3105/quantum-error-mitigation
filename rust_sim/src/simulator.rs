@@ -103,6 +103,14 @@ impl QuantumSimulator {
         apply_idle_noise(&mut self.state, wire, protected);
     }
 
+    /// Apply amplitude damping (T1) noise
+    pub fn apply_amplitude_damping(&mut self, wire: usize, gamma: f64) {
+        if wire >= self.num_qubits {
+            return;
+        }
+        apply_amplitude_damping(&mut self.state, wire, gamma);
+    }
+
     /// Apply phase damping (T2) noise
     pub fn apply_phase_damping(&mut self, wire: usize, lambda: f64) {
         if wire >= self.num_qubits {
@@ -148,6 +156,24 @@ impl QuantumSimulator {
     /// Get trace and purity metrics
     pub fn get_metrics(&self) -> (f64, f64) {
         (self.state.trace().re, self.state.purity())
+    }
+
+    /// Get the full density matrix as a flattened vector of complex numbers
+    /// Returns: (real_parts, imag_parts) as two separate vectors
+    pub fn get_density_matrix(&self) -> (Vec<f64>, Vec<f64>) {
+        let dim = self.state.dim();
+        let mut real_parts = Vec::with_capacity(dim * dim);
+        let mut imag_parts = Vec::with_capacity(dim * dim);
+        
+        for i in 0..dim {
+            for j in 0..dim {
+                let elem = self.state.matrix[(i, j)];
+                real_parts.push(elem.re);
+                imag_parts.push(elem.im);
+            }
+        }
+        
+        (real_parts, imag_parts)
     }
 }
 
