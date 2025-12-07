@@ -1,8 +1,8 @@
 # Synergistic Quantum Error Mitigation: Coupling Dynamical Decoupling with Symmetry Verification
 
-**Authors**: [Your Name/Team]  
+**Authors**: Surya P
 **Date**: December 4, 2025  
-**Repository**: [GitHub Link]
+**Repository**: [https://github.com/suryap3105/quantum-error-mitigation]
 
 ## Abstract
 
