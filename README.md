@@ -299,7 +299,7 @@ Contributions welcome! Areas of interest:
 ## 📬 **Contact**
 
 **Surya P**  
-📧 [Your Email](suryap31@outlook.com) 
+📧 [suryap31@outlook.com]
 🔗 [LinkedIn](https://www.linkedin.com/in/surya-p-74b104359/)  
 💻 [GitHub](https://github.com/suryap3105)
 
