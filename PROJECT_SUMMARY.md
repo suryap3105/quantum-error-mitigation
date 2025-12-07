@@ -246,7 +246,7 @@ python rl/train_rl.py
 
 ## Contact & Contribution
 
-**Repository**: [To be added]  
+**Repository**: [https://github.com/suryap3105/quantum-error-mitigation]  
 **Issues**: Report bugs or request features via GitHub Issues  
 **Contributions**: Pull requests welcome!
 
