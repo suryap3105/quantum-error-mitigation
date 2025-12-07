@@ -277,38 +277,6 @@ quantum-error-mitigation/
 │   └── plot_molecule_comparison.py
 └── results/               # CSV data and trained models
 ```
-
----
-
-## 🏆 **Why This Would Win a Hackathon**
-
-### ✅ **Innovation (10/10)**
-- First RL-based adaptive QEM system
-- Novel Hybrid strategy combination
-- Multi-noise, multi-molecule capability
-
-### ✅ **Technical Depth (10/10)**
-- Rust + Python integration
-- Density matrix formalism
-- RL training pipeline
-- Phenomenological noise modeling
-
-### ✅ **Polish (10/10)**
-- Publication-grade visualizations
-- Clean codebase
-- Comprehensive documentation
-- Professional presentation
-
-### ✅ **Real-World Impact (9/10)**
-- Directly applicable to NISQ devices
-- Solves actual problem in quantum chemistry
-- Could guide experimental QEM deployment
-
-### ✅ **Completeness (9/10)**
-- End-to-end pipeline
-- Multiple validation experiments
-- Trained RL models included
-
 ---
 
 ## 📖 **Citation**
@@ -318,8 +286,8 @@ If you use this work, please cite:
 ```bibtex
 @software{adaptive_qem_2024,
   title = {Adaptive Quantum Error Mitigation with Reinforcement Learning},
-  author = {Surya Prakash},
-  year = {2024},
+  author = {Surya P},
+  year = {2025},
   url = {https://github.com/suryap3105/quantum-error-mitigation}
 }
 ```
@@ -345,9 +313,9 @@ Contributions welcome! Areas of interest:
 
 ## 📬 **Contact**
 
-**Surya Prakash**  
-📧 [Your Email]  
-🔗 [LinkedIn](https://linkedin.com/in/yourprofile)  
+**Surya P**  
+📧 [Your Email](suryap31@outlook.com) 
+🔗 [LinkedIn](https://www.linkedin.com/in/surya-p-74b104359/)  
 💻 [GitHub](https://github.com/suryap3105)
 
 ---
