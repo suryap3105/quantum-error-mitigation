@@ -279,21 +279,6 @@ quantum-error-mitigation/
 ```
 ---
 
-## 📖 **Citation**
-
-If you use this work, please cite:
-
-```bibtex
-@software{adaptive_qem_2024,
-  title = {Adaptive Quantum Error Mitigation with Reinforcement Learning},
-  author = {Surya P},
-  year = {2025},
-  url = {https://github.com/suryap3105/quantum-error-mitigation}
-}
-```
-
----
-
 ## 📄 **License**
 
 MIT License - see [LICENSE](LICENSE) file.
